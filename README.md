@@ -13,11 +13,11 @@ Plataforma de organização e criação musical, voltada para artistas e músico
 
 ## ✅ Casos de Uso
 
-1. **Criar Conta**  
+1. **Criar Conta**(Concluido)  
    - Formulário: Nome, E-mail, Senha.  
    - Cadastro na tabela de usuários.
 
-2. **Fazer Login**  
+2. **Fazer Login**(concluido)
    - Verificação de e-mail e senha.
    - Se válido, manter login com sessão (`session` do Flask).
 
