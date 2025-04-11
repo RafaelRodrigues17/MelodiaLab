@@ -1,46 +1,56 @@
-from flask import Flask, render_template, request, url_for, redirect, flash
+from flask import Flask, render_template, request, url_for, redirect, flash, session
+import database
+
+database.criar_tabelas()
+
 app = Flask(__name__)
 app.secret_key = "chave_muito_segura"
 
 # Cria um dicionário e usuários e senha, SERÁ MIGRADO PARA O BANCO DE DADOS
-usuarios = {
-    'usuario' : 'senha',
-    'admin' : 'admin'
-}
-
 @app.route('/') #rota para a página inicial
 def index():
     return render_template('index.html')
-
-@app.route('/login') #rota para a página de login
-def login():
-    return render_template('login.html')
 
 @app.route('/home')
 def home():
     return render_template('home.html')
 
-
 # VERFIFICAR O LOGIN
-@app.route('/verificar-login', methods=['POST'])
-def verificar_login():
-# Pegando o que o usuário digitou no campo de entrada de user e senha
-    username = request.form['username']
-    password = request.form['password']
-
-    # Verifica se o usuario digitado está na lista e se 
-    # a senha está certa
-    if username in usuarios and usuarios[username] == password:
-        return redirect(url_for('home'))
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        form = request.form  # Coletando os dados do formulário de login
+        # Chamando a função 'login' do arquivo database para verificar a senha
+        if database.login(form) == True:
+            session['usuario'] = form['email'] # Armazena o email do usuário na sessão
+            return redirect(url_for('home'))
+        else:
+            return "Ocorreu um erro ao fazer o login do usuário"  # Caso contrário, exibe mensagem de erro
     else:
-        # Flash envia mensagem para o front-end
-        flash('Usuário ou senha incorretos', 'danger')
-        return redirect(url_for('login'))
+        return render_template('login.html')  # Se for GET, renderiza o formulário de login
 
-@app.route('/cadastro') #rota para a página de login
+# Rota de cadastro ('/cadastro') que também pode ser acessada por GET ou POST
+@app.route('/cadastro', methods=["GET", "POST"])
 def cadastro():
-    return render_template('cadastro.html')
-
-# parte principal do
+    if request.method == "POST":
+        form = request.form  # Coletando os dados do formulário de cadastro
+        # Chamando a função 'criar_usuario' do arquivo database para cadastrar o usuário
+        if database.criar_usuario(form) == True:
+            return render_template('login.html')  # Se cadastro for bem-sucedido, redireciona para o login
+        else:
+            return "Ocorreu um erro ao cadastrar usuário"  # Caso contrário, exibe mensagem de erro
+    else:
+        return render_template('cadastro.html')  # Se for GET, renderiza o formulário de cadastro
+ 
+@app.route('/excluir_usuario')
+def excluir_usuario():
+    email = session['usuario']
+    
+    if database.excluir_usuario(email):
+        return redirect(url_for('login'))
+    else:
+        return "Ocorreu um erro ao excluir o usuário"
+    
+# parte principal do programa
 if __name__ == '__main__':
     app.run(debug=True)

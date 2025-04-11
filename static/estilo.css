@@ -2,7 +2,7 @@
 
 body{
    background-attachment: fixed;
-   background-color: #3d2557;
+   background-color: #46C0EE;
    display: flex;
    justify-content: center;
    align-items: center;
@@ -37,7 +37,7 @@ body#index{
 
 .botoes a {
     text-decoration: none; /*Remover o sublinhado dos botões*/
-    background-color: #f14483; /*alterando a cor do fundo*/
+    background-color: #46C0EE; /*alterando a cor do fundo*/
     font-size: 20px; /*Alterando o tamanho da fonte*/
     color: #ffffff; /*mudar a cor do texto*/
     padding: 10px; /*adicionar um espaço em volta texto*/
@@ -45,20 +45,20 @@ body#index{
 }
 
 a.botao-secundario {
-    border-color: #f14483; /*alterando a cor do fundo*/
+    border-color: #46C0EE; /*alterando a cor do fundo*/
     border-style: solid;
     background-color: transparent;
     font-size: 18px; /*Alterando o tamanho da fonte*/
-    color: #f14483; /*mudar a cor do texto*/
+    color: #46C0EE; /*mudar a cor do texto*/
     font-weight: 700;
 }
 
 /* novo estilo*/
 .botoes button {
     text-decoration: none; /*Remover o sublinhado dos botões*/
-    background-color: #a684d2; /*alterando a cor do fundo*/
+    background-color: #357fd3; /*alterando a cor do fundo*/
     font-size: 20px; /*Alterando o tamanho da fonte*/
-    color: #530068; /*mudar a cor do texto*/
+    color: #fdfeff; /*mudar a cor do texto*/
     padding: 10px; /*adicionar um espaço em volta texto*/
     border-radius: 10px;
     border: none; /* LINHA NOVA*/

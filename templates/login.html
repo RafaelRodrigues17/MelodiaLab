@@ -14,15 +14,15 @@
 <body class="login">
     <img id="logo" src="/static/img/Logo texto.png">
     <div class="caixa-de-login">
-        <form action="/verificar-login" method="POST">
+        <form action="/login" method="POST">
             <h2>Login</h2>
-            <p>Usuário</p>
+            <p>Usuário:</p>
             <!-- Adiciona ENTRADA DE TEXTO -->
-            <input type='text' id='username' name='username' placeholder="Digite seu usuário">
+            <input type="text" id="email" name="email" required>
 
-            <p>Senha</p>
+            <p>Senha:</p>
             <!-- Adiciona ENTRADA DE SENHA -->
-            <input type='password' id='password' name='password' placeholder="Digite sua senha">
+            <input type='password' id='password' name='senha' placeholder="Digite sua senha">
             <br>
             {% with messages = get_flashed_messages() %}
             {% if messages %}
