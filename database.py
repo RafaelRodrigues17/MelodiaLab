@@ -85,6 +85,28 @@ def excluir_usuario(email):
     conexao.commit()
     return True
 
+def nova_musica(formulario):
+    try:
+        conexao = conectar_banco()
+        cursor = conexao.cursor()
+
+        nome_musica = formulario.get('nome_musica')
+        artista = formulario.get('artista')
+        status = formulario.get('status')
+        letra = formulario.get('letra')
+        email_usuario = formulario.get('email_usuario')  # ou pegue do session depois
+
+        cursor.execute('''
+            INSERT INTO projetos_musicais (nome_musica, artista, status, letra, caminho_capa, email_usuario)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', (nome_musica, artista, status, letra, '', email_usuario))
+
+        conexao.commit()
+        print("Nova música salva!")
+        return True
+    except Exception as e:
+        print("Erro ao salvar música:", e)
+        return False
 
 # PARTE PRINCIPAL DO PROGRAMA
 if __name__ == '__main__':

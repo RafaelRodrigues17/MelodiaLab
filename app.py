@@ -51,6 +51,18 @@ def excluir_usuario():
     else:
         return "Ocorreu um erro ao excluir o usuário"
     
+@app.route('/nova_musica', methods=["GET", "POST"])
+def nova_musica():
+    if request.method == "POST":
+        form = request.form
+        if database.nova_musica(form):
+            return redirect(url_for('home'))  # redireciona para a função `home`
+        else:
+            return "Ocorreu um erro ao criar a música"
+    else:
+        return render_template('nova_musica.html')
+
+    
 # parte principal do programa
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True) 

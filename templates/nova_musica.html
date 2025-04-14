@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Música</title>
+    <link rel="stylesheet" href="static/estilo.css">
+</head>
+<body class="Criar música">
+    <img id="logo" src="/static/img/Logo texto.png" alt="Logo">
+    <div class="caixa-de-login">
+        <form action="/nova_musica" method="POST">
+            <h2>Criar música</h2>
+
+            <p>Nome da Música:</p>
+            <input type="text" name="nome_musica" required>
+
+            <p>Artista:</p>
+            <input type="text" name="artista" required>
+
+            <p>Status da Música:</p>
+            <select name="status" required>
+                <option value="rascunho">Rascunho</option>
+                <option value="completa">Completa</option>
+                <option value="em_andamento">Em andamento</option>
+            </select>
+
+            <p>Letra da Música:</p>
+            <textarea name="letra" rows="6" cols="40" placeholder="Digite a letra aqui..." required></textarea>
+
+            <br><br>
+            <div class="botoes">
+                <button type="submit">Criar</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
