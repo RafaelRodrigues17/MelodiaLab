@@ -25,20 +25,20 @@ Plataforma de organização e criação musical, voltada para artistas e músico
    - Remover usuário da tabela.
    - Remover todos os projetos musicais ligados a esse usuário.
 
-4. **Criar Projetos Musicais**  
+4. **Criar Projetos Musicais**(concluido) 
    - Formulário: Nome da música, artista, status (ex: composição, gravação, finalizada), letra.
    - Opcional: Upload de uma capa de imagem.
 
-5. **Ver Projetos Musicais**  
+5. **Ver Projetos Musicais**(concluido)
    - Exibir em cards com capa, nome da música, artista, status e trecho da letra.
 
-6. **Excluir Projeto Musical**  
+6. **Excluir Projeto Musical**(concluido)
    - Botão de deletar projeto associado ao usuário.
 
-7. **Adicionar Capa ao Projeto Musical**  
+7. **Adicionar Capa ao Projeto Musical**(concluido)
    - Upload de imagem (.jpg, .png) e associação ao projeto.
 
-8. **Editar Projeto Musical**  
+8. **Editar Projeto Musical**(concluido)
    - Alterar informações: nome da música, artista, status, letra, capa.
 
 ---
