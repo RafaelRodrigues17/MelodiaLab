@@ -1,5 +1,6 @@
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask import session
 
 def conectar_banco():
     conexao = sqlite3.connect("musicas.db")
@@ -86,27 +87,78 @@ def excluir_usuario(email):
     return True
 
 def nova_musica(formulario):
-    try:
-        conexao = conectar_banco()
-        cursor = conexao.cursor()
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
 
-        nome_musica = formulario.get('nome_musica')
-        artista = formulario.get('artista')
-        status = formulario.get('status')
-        letra = formulario.get('letra')
-        email_usuario = formulario.get('email_usuario')  # ou pegue do session depois
+    cursor.execute('''
+        INSERT INTO projetos_musicais (nome_musica, artista, status, letra, caminho_capa, email_usuario)
+        VALUES (?, ?, ?, ?, ?, ?)
+    ''', (
+        formulario['nome_musica'],
+        formulario['artista'],
+        formulario['status'],
+        formulario['letra'],
+        formulario.get('caminho_capa', '/static/img/capa1.jpeg'),  # valor padrão se não tiver capa
+        session.get('usuario') # pega o email do usuário logado
+    ))
 
-        cursor.execute('''
-            INSERT INTO projetos_musicais (nome_musica, artista, status, letra, caminho_capa, email_usuario)
-            VALUES (?, ?, ?, ?, ?, ?)
-        ''', (nome_musica, artista, status, letra, '', email_usuario))
+    conexao.commit()
+    return True
 
-        conexao.commit()
-        print("Nova música salva!")
-        return True
-    except Exception as e:
-        print("Erro ao salvar música:", e)
-        return False
+def obter_musicas_usuario(email_usuario):
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+    
+    cursor.execute('''
+    SELECT id, nome_musica, artista, status, letra, caminho_capa
+    FROM projetos_musicais
+    WHERE email_usuario=?
+''', (email_usuario,))
+
+    
+    musicas = cursor.fetchall()
+    return musicas
+
+def editar_musica(formulario):
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+
+    cursor.execute('''
+        UPDATE projetos_musicais
+        SET nome_musica=?, artista=?, status=?, letra=?, caminho_capa=?
+        WHERE id=? AND email_usuario=?
+    ''', (
+        formulario['nome_musica'],
+        formulario['artista'],
+        formulario['status'],
+        formulario['letra'],
+        formulario['caminho_capa'],
+        formulario['id'],
+        session.get('usuario')  # <- aqui está a correção
+    ))
+
+    conexao.commit()
+    return True
+
+def obter_musica_por_id(id, email_usuario):
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+
+    cursor.execute('''
+        SELECT id, nome_musica, artista, status, letra, caminho_capa
+        FROM projetos_musicais
+        WHERE id=? AND email_usuario=?
+    ''', (id, email_usuario))
+
+    return cursor.fetchone()
+
+def excluir_musica(id):
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+    
+    cursor.execute("DELETE FROM projetos_musicais WHERE id = ?", (id,))
+    conexao.commit()
+    conexao.close()
 
 # PARTE PRINCIPAL DO PROGRAMA
 if __name__ == '__main__':

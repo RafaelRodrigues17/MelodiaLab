@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Música</title>
+    <link rel="stylesheet" href="/static/estilo.css">
+</head>
+<body>
+    <img id="logo" src="/static/img/Logo texto.png" alt="Logo">
+    <div class="caixa-de-login">
+        <form method="POST">
+            <h2>Editar Música</h2>
+
+            <p>Nome da Música:</p>
+            <input type="text" name="nome_musica" value="{{ musica[1] }}" required>
+
+            <p>Artista:</p>
+            <input type="text" name="artista" value="{{ musica[2] }}" required>
+
+            <p>Status:</p>
+            <select name="status" required>
+                <option value="rascunho" {% if musica[3] == 'rascunho' %}selected{% endif %}>Rascunho</option>
+                <option value="completa" {% if musica[3] == 'completa' %}selected{% endif %}>Completa</option>
+                <option value="em_andamento" {% if musica[3] == 'em_andamento' %}selected{% endif %}>Em andamento</option>
+            </select>
+
+            <p>Letra da Música:</p>
+            <textarea name="letra" rows="6" cols="40" required>{{ musica[4] }}</textarea>
+
+            <p>URL da Nova Capa:</p>
+            <input type="text" name="caminho_capa" value="{{ musica[5] }}" required>
+
+            <div class="botoes">
+                <button type="submit">Salvar Alterações</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

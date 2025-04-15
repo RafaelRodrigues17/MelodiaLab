@@ -4,44 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-<link rel="stylesheet" href="static/estilo.css">
+    <link rel="stylesheet" href="static/estilo.css">
+    <style>
+        .botao-editar {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            margin-right: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .botao-excluir {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .botoes-musica {
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body id="home">
     <img id="logo-home" src="/static/img/Logo texto.png">
-   
+
     <div class="botoes">
         <a href="/nova_musica"> + Criar uma música</a>
     </div>
-    
-      <!-- Seção de "Minhas Criações" -->
-      <section class="my-creations">
+
+    <!-- Seção de "Minhas Criações" -->
+    <section class="my-creations">
         <h2>Minhas Criações</h2>
         <div class="cards-container">
-          <!-- Card de projeto musical -->
-          <div class="card">
-            <img src="/static/img/capa1.jpeg" alt="Capa do Projeto" class="cover">
-            <div class="card-content">
-              <h3>Nome da Música</h3>
-              <p>Artista: Seu Nome</p>
-              <p>Status: Em composição</p>
-              <p>Letra: Viciado em adrenalina, só sinto amor quando a gente briga...</p>
+            {% for musica in musicas %}
+            <div class="caixa-de-login">
+              <img src="{{ musica[5] }}" alt="Capa da música" class="capa-musica">
+              <h3>{{ musica[1] }}</h3> <!-- Nome da música -->
+              <p><strong>Artista:</strong> {{ musica[2] }}</p>
+              <p><strong>Status:</strong> {{ musica[3] }}</p>
+              <p><strong>Letra:</strong> {{ musica[4] }}</p>
+              
+              <a href="{{ url_for('editar_musica', id=musica[0]) }}" class="btn-editar">Editar</a>
+              <a href="{{ url_for('excluir_musica', id=musica[0]) }}" class="btn-excluir">Excluir</a>
             </div>
-          </div>
-  
-          <div class="card">
-            <img src="/static/img/capa2.jpeg" alt="Capa do Projeto" class="cover">
-            <div class="card-content">
-              <h3>Outra Música</h3>
-              <p>Artista: Seu Nome</p>
-              <p>Status: Em gravação</p>
-              <p>Letra: Eu te levei para meu templo, vulnerável com meus sentimentos...</p>
-            </div>
-          </div>
-          <!-- Mais cards podem ser adicionados aqui -->
+          {% endfor %}
+          
         </div>
-        <input type="button"
-        onclick="window.location.href='/excluir_usuario'" value="Excluir usuário">
-      </section>
+        <input type="button" onclick="window.location.href='/excluir_usuario'" value="Excluir usuário">
+    </section>
 
 </body>
 </html>

@@ -6,14 +6,19 @@ database.criar_tabelas()
 app = Flask(__name__)
 app.secret_key = "chave_muito_segura"
 
-# Cria um dicionário e usuários e senha, SERÁ MIGRADO PARA O BANCO DE DADOS
 @app.route('/') #rota para a página inicial
 def index():
     return render_template('index.html')
 
-@app.route('/home')
+# Cria um dicionário e usuários e senha, SERÁ MIGRADO PARA O BANCO DE DADOS
+@app.route("/home")
 def home():
-    return render_template('home.html')
+    email = session.get("usuario")  # agora está correto
+    if not email:
+        return redirect(url_for('login'))
+
+    musicas = database.obter_musicas_usuario(email)
+    return render_template("home.html", musicas=musicas)
 
 # VERFIFICAR O LOGIN
 @app.route('/login', methods=["GET", "POST"])
@@ -61,8 +66,36 @@ def nova_musica():
             return "Ocorreu um erro ao criar a música"
     else:
         return render_template('nova_musica.html')
-
     
+@app.route('/editar_musica/<int:id>', methods=["GET", "POST"])
+def editar_musica(id):
+    email = session.get("usuario")
+    if not email:
+        return redirect(url_for('login'))
+
+    if request.method == "POST":
+        form = request.form
+        form = dict(form)
+        form['id'] = id
+        if database.editar_musica(form):
+            return redirect(url_for('home'))
+        else:
+            return "Erro ao editar música"
+    else:
+        musica = database.obter_musica_por_id(id, email)
+        if not musica:
+            return "Música não encontrada"
+        return render_template('editar_musica.html', musica=musica)
+
+@app.route("/excluir_musica/<int:id>")
+def excluir_musica(id):
+    email = session.get("usuario")
+    if not email:
+        return redirect(url_for("login"))
+
+    database.excluir_musica(id)
+    return redirect(url_for("home"))
+
 # parte principal do programa
 if __name__ == '__main__':
     app.run(debug=True) 
